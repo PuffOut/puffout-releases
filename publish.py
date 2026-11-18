@@ -94,7 +94,15 @@ def main():
     if args.apk.stat().st_size > 49_000_000:
         raise PublishError("The APK is too large for this publisher.")
     caption = args.changelog.read_text(encoding="utf-8-sig").strip()
-    if not caption or len(caption.encode("utf-16-le")) // 2 > 1024:
+    if not caption:
+        raise PublishError("The changelog must contain between 1 and 1024 characters.")
+    update_heading = "🔄 <b>Как обновить</b>" if args.html else "🔄 Как обновить"
+    caption += (
+        "\n\n" + update_heading + "\n"
+        "Скачай новый APK и установи поверх текущей версии. "
+        "Старую версию удалять не нужно, чтобы сохранить прогресс."
+    )
+    if len(caption.encode("utf-16-le")) // 2 > 1024:
         raise PublishError("The changelog must contain between 1 and 1024 characters.")
     print(f"Channel {CHANNEL}\nFile {args.apk.name}\n\n{caption}\n")
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
