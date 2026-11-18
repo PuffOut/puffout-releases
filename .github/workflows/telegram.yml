@@ -10,6 +10,10 @@ on:
         description: Check bot access without publishing
         type: boolean
         default: true
+      existing_message_id:
+        description: Existing Telegram post ID to update, or empty to publish a new post
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -31,9 +35,13 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           CHECK_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.check_only }}
+          EXISTING_MESSAGE_ID: ${{ inputs.existing_message_id }}
         run: |
+          args=(--html --yes)
           if [ "$CHECK_ONLY" = "true" ]; then
-            python3 publish.py --check
-          else
-            python3 publish.py --yes
+            args+=(--check)
           fi
+          if [ -n "$EXISTING_MESSAGE_ID" ]; then
+            args+=(--edit-message-id "$EXISTING_MESSAGE_ID")
+          fi
+          python3 publish.py "${args[@]}"
