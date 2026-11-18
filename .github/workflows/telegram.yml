@@ -1,0 +1,39 @@
+name: Publish PuffOut to Telegram
+
+on:
+  push:
+    branches: [main]
+    paths: [release.json]
+  workflow_dispatch:
+    inputs:
+      check_only:
+        description: Check bot access without publishing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: puffout-telegram
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Get release files
+        uses: actions/checkout@v6.1.0
+        with:
+          persist-credentials: false
+      - name: Verify bot access or publish release
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHECK_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.check_only }}
+        run: |
+          if [ "$CHECK_ONLY" = "true" ]; then
+            python3 publish.py --check
+          else
+            python3 publish.py --yes
+          fi
