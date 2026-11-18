@@ -52,10 +52,13 @@ def query(token, method, **fields):
     )
 
 
-def document_body(apk, caption):
+def document_body(apk, caption, parse_mode=None):
     boundary = "PuffOut" + uuid.uuid4().hex
     parts = []
-    for name, value in (("chat_id", CHANNEL), ("caption", caption)):
+    fields = {"chat_id": CHANNEL, "caption": caption}
+    if parse_mode:
+        fields["parse_mode"] = parse_mode
+    for name, value in fields.items():
         parts.append(
             f'--{boundary}\r\nContent-Disposition: form-data; name="{name}"\r\n\r\n{value}\r\n'.encode("utf-8")
         )
@@ -74,7 +77,11 @@ def main():
     parser.add_argument("--changelog", type=Path, default=ROOT / "changelog.txt")
     parser.add_argument("--check", action="store_true", help="Check bot and channel permissions without publishing.")
     parser.add_argument("--yes", action="store_true", help="Publish without an interactive confirmation.")
+    parser.add_argument("--html", action="store_true", help="Use Telegram HTML caption formatting.")
+    parser.add_argument("--edit-message-id", type=int, help="Update the caption of an existing channel post.")
     args = parser.parse_args()
+    if args.edit_message_id is not None and args.edit_message_id < 1:
+        raise PublishError("The message ID must be positive.")
     if args.apk is None:
         release = json.loads((ROOT / "release.json").read_text(encoding="utf-8"))
         args.apk = (ROOT / release["apk"]).resolve()
@@ -110,9 +117,20 @@ def main():
     if not args.yes and input("Type SEND to publish this APK and changelog > ").strip() != "SEND":
         print("Cancelled.")
         return
-    data, content_type = document_body(args.apk, caption)
-    message = api(token, "sendDocument", data, content_type)
-    print(f"Published https://t.me/PuffOutapp/{message['message_id']}")
+    parse_mode = "HTML" if args.html else None
+    if args.edit_message_id is not None:
+        fields = {"chat_id": CHANNEL, "message_id": args.edit_message_id, "caption": caption}
+        if parse_mode:
+            fields["parse_mode"] = parse_mode
+        message = query(token, "editMessageCaption", **fields)
+        print(f"Updated https://t.me/PuffOutapp/{message['message_id']}")
+    else:
+        data, content_type = document_body(args.apk, caption, parse_mode)
+        message = api(token, "sendDocument", data, content_type)
+        print(f"Published https://t.me/PuffOutapp/{message['message_id']}")
+    if args.html:
+        bold_count = sum(entity["type"] == "bold" for entity in message.get("caption_entities", []))
+        print(f"Telegram confirmed {bold_count} bold text spans in the caption.")
 
 
 if __name__ == "__main__":
