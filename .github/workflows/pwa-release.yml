@@ -1,0 +1,34 @@
+name: Publish PuffOut PWA release
+on:
+  push:
+    branches: [main]
+    paths: [posts/pwa-release.json]
+  workflow_dispatch:
+    inputs:
+      check_only:
+        description: Verify release and bot without publishing
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: puffout-pwa-release
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6.1.0
+        with:
+          persist-credentials: false
+      - name: Publish PWA changelog
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHECK_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.check_only }}
+        run: |
+          args=(--release posts/pwa-release.json)
+          if [ "$CHECK_ONLY" = "true" ]; then
+            args+=(--check)
+          fi
+          python3 publish_pwa.py "${args[@]}"

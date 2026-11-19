@@ -19,4 +19,4 @@ jobs:
       - name: Publish iPhone announcement
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        run: python3 publish_pwa.py
+        run: python3 publish_pwa.py --release posts/pwa-launch.json
