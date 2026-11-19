@@ -1,9 +1,7 @@
-🌿 <b>PuffOut 1.6.2 · Android + PWA</b>
+🌿 <b>PuffOut 1.6.3 · Android + PWA</b>
 
-🎮 <b>Пауза двойным нажатием</b>
-В «Змейке» и «Блоках» убрали кнопки паузы, продолжения и новой партии. Дважды нажми на поле или свободное место игрового экрана, чтобы поставить игру на паузу или продолжить.
+⚡ <b>Новая эмблема Tinker</b>
+Заменили значок в шапке, индикаторе и превью темы. В Android — также ярлык и значок в недавних приложениях. В PWA — значок вкладки и иконка для установки.
 
-После проигрыша новая партия начинается автоматически. Змейка ждёт первого свайпа.
-
-🌐 <a href="https://puffout-app.regalhamster2.chatgpt.site/">PWA для iPhone и ПК</a> · <a href="https://telegra.ph/Kak-ustanovit-PuffOut-na-iPhone-i-sohranit-progress-11-19">Инструкция</a>
-В PWA прими предложенное обновление.
+🌐 <a href="https://puffout-app.regalhamster2.chatgpt.site/">Открыть PWA</a> · <a href="https://telegra.ph/Kak-ustanovit-PuffOut-na-iPhone-i-sohranit-progress-11-19">Инструкция для iPhone</a>
+В PWA прими предложенное обновление. Уже установленный ярлык может сохранить старую картинку.
