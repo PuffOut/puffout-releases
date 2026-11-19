@@ -1,0 +1,22 @@
+name: Announce PuffOut PWA
+on:
+  push:
+    branches: [main]
+    paths: [posts/pwa-launch.json]
+permissions:
+  contents: read
+concurrency:
+  group: puffout-pwa-announcement
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6.1.0
+        with:
+          persist-credentials: false
+      - name: Publish iPhone announcement
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: python3 publish_pwa.py
