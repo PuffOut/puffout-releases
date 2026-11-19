@@ -1,6 +1,6 @@
 🌿 <b>PuffOut 1.6.3 · Android + PWA</b>
 
-⚡ <b>Новая эмблема Tinker</b>
+⚡ <b>Обновление секретного оформления</b>
 Заменили значок в шапке, индикаторе и превью темы. В Android — также ярлык и значок в недавних приложениях. В PWA — значок вкладки и иконка для установки.
 
 🌐 <a href="https://puffout-app.regalhamster2.chatgpt.site/">Открыть PWA</a> · <a href="https://telegra.ph/Kak-ustanovit-PuffOut-na-iPhone-i-sohranit-progress-11-19">Инструкция для iPhone</a>
