@@ -10,6 +10,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
+from post_format import with_feedback
 
 
 CHANNEL = "@PuffOutapp"
@@ -102,6 +103,7 @@ def main():
         "Скачай новый APK и установи поверх текущей версии. "
         "Старую версию удалять не нужно, чтобы сохранить прогресс."
     )
+    caption = with_feedback(caption, html=args.html)
     if len(caption.encode("utf-16-le")) // 2 > 1024:
         raise PublishError("The changelog must contain between 1 and 1024 characters.")
     print(f"Channel {CHANNEL}\nFile {args.apk.name}\n\n{caption}\n")

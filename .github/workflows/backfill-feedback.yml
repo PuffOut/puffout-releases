@@ -1,0 +1,19 @@
+name: Add feedback link to published posts
+on:
+  push:
+    branches: [main]
+    paths: [posts/backfill-feedback.json]
+permissions:
+  contents: read
+jobs:
+  update-posts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6.1.0
+        with:
+          persist-credentials: false
+      - name: Update existing Telegram posts
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: python3 backfill_feedback.py
