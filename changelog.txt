@@ -1,6 +1,9 @@
-🌿 <b>PuffOut 1.6.6 · Android + PWA</b>
+🌿 <b>PuffOut 1.6.7 · Android + PWA</b>
+
+⚙️ <b>Общие настройки</b>
+Шестерёнка слева от уведомлений открывает настройки скорости падения и вращения фона. Изменения сохраняются и сразу применяются во всех темах с анимацией.
 
 ✨ <b>обновление секретного оформления</b>
 
-🌐 <a href="https://puffout-app.regalhamster2.chatgpt.site/">Открыть PWA</a> · <a href="https://telegra.ph/Kak-ustanovit-PuffOut-na-iPhone-i-sohranit-progress-11-19">Инструкция для iPhone</a>
+🌐 <a href="https://puffout-app.regalhamster2.chatgpt.site/">Открыть PWA</a>
 В PWA прими предложенное обновление.
